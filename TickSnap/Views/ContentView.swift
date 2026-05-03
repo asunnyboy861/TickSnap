@@ -18,7 +18,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 28) {
                     if timerManager.timers.isEmpty {
                         presetSection
                     } else {
@@ -27,6 +27,8 @@ struct ContentView: View {
                     }
                 }
                 .padding()
+                .frame(maxWidth: 720)
+                .frame(maxWidth: .infinity)
             }
             .navigationTitle("TickSnap")
             .toolbar {
@@ -34,14 +36,18 @@ struct ContentView: View {
                     Button {
                         showingSettings = true
                     } label: {
-                        Image(systemName: "gearshape.fill")
+                        Image(systemName: "gearshape")
+                            .font(.system(size: 18, weight: .medium))
+                            .foregroundStyle(.secondary)
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showingNewTimer = true
                     } label: {
-                        Image(systemName: "plus.circle.fill")
+                        Image(systemName: "plus")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundStyle(.orange)
                     }
                 }
             }
@@ -61,10 +67,14 @@ struct ContentView: View {
     }
     
     private var presetSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Quick Start")
-                .font(.headline)
-                .foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Text("Quick Start")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.primary)
+                
+                Spacer()
+            }
             
             LazyVGrid(columns: [
                 GridItem(.flexible(), spacing: 12),
@@ -90,11 +100,11 @@ struct ContentView: View {
     }
     
     private var activeTimersSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack {
-                Text("Active Timers")
-                    .font(.headline)
-                    .foregroundStyle(.secondary)
+                Text("Active")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.primary)
                 
                 Spacer()
                 
@@ -104,7 +114,7 @@ struct ContentView: View {
                             timerManager.removeFinishedTimers()
                         }
                     }
-                    .font(.subheadline)
+                    .font(.subheadline.weight(.medium))
                     .foregroundStyle(.orange)
                 }
             }
@@ -136,33 +146,52 @@ struct PresetCard: View {
     
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 8) {
-                Image(systemName: preset.iconName)
-                    .font(.title2)
-                    .foregroundStyle(.orange)
-                
-                Text(preset.name)
-                    .font(.subheadline.bold())
-                    .foregroundStyle(.primary)
-                
-                Text(formatDuration(preset.duration))
-                    .font(.caption)
-                    .monospacedDigit()
-                    .foregroundStyle(.secondary)
-                
-                if preset.autoRepeat {
-                    Image(systemName: "arrow.triangle.2.circlepath")
-                        .font(.caption2)
+            HStack(spacing: 14) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.orange.opacity(0.1))
+                        .frame(width: 44, height: 44)
+                    
+                    Image(systemName: preset.iconName)
+                        .font(.system(size: 20, weight: .medium))
                         .foregroundStyle(.orange)
                 }
+                
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(preset.name)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.primary)
+                    
+                    HStack(spacing: 6) {
+                        Text(formatDuration(preset.duration))
+                            .font(.caption)
+                            .monospacedDigit()
+                            .foregroundStyle(.secondary)
+                        
+                        if preset.autoRepeat {
+                            Image(systemName: "arrow.2.circlepath")
+                                .font(.caption2)
+                                .foregroundStyle(.orange.opacity(0.7))
+                        }
+                    }
+                }
+                
+                Spacer()
+                
+                Image(systemName: "play.fill")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.orange.opacity(0.5))
             }
-            .frame(maxWidth: .infinity)
             .padding()
             .background(Color(.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color.gray.opacity(0.08), lineWidth: 1)
+            )
         }
         .buttonStyle(.plain)
+        .pressEffect()
     }
     
     private func formatDuration(_ seconds: TimeInterval) -> String {

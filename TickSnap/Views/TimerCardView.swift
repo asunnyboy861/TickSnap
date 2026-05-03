@@ -6,18 +6,18 @@ struct TimerCardView: View {
     let onDelete: () -> Void
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             HStack {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 6) {
                     Text(timer.name.isEmpty ? "Timer" : timer.name)
-                        .font(.headline)
+                        .font(.headline.weight(.semibold))
                     
                     if timer.autoRepeat {
                         HStack(spacing: 4) {
-                            Image(systemName: "arrow.triangle.2.circlepath")
-                                .font(.caption2)
-                            Text("Auto Repeat")
-                                .font(.caption2)
+                            Image(systemName: "arrow.2.circlepath")
+                                .font(.caption2.weight(.medium))
+                            Text("Repeats")
+                                .font(.caption2.weight(.medium))
                         }
                         .foregroundStyle(.orange)
                     }
@@ -26,13 +26,21 @@ struct TimerCardView: View {
                 Spacer()
                 
                 if timer.isFinished {
-                    Text("Done!")
-                        .font(.headline)
-                        .foregroundStyle(.green)
+                    HStack(spacing: 4) {
+                        Image(systemName: "checkmark.circle.fill")
+                        Text("Done")
+                    }
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.green)
                 } else {
-                    Circle()
-                        .fill(timer.isRunning ? .green : .orange)
-                        .frame(width: 8, height: 8)
+                    HStack(spacing: 6) {
+                        Circle()
+                            .fill(timer.isRunning ? .green : .orange)
+                            .frame(width: 6, height: 6)
+                        Text(timer.isRunning ? "Running" : "Paused")
+                            .font(.caption.weight(.medium))
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
             
@@ -41,11 +49,9 @@ struct TimerCardView: View {
                 
                 CircularProgressView(
                     progress: timer.progress,
-                    lineWidth: 8,
-                    gradient: AngularGradient(
-                        colors: [.orange, .cyan, .orange],
-                        center: .center
-                    )
+                    lineWidth: 6,
+                    color: timer.isFinished ? .green : .orange,
+                    isRunning: timer.isRunning
                 )
                 .frame(width: 160, height: 160)
                 
@@ -78,8 +84,12 @@ struct TimerCardView: View {
             )
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.gray.opacity(0.08), lineWidth: 1)
+        )
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive) {
                 withAnimation {

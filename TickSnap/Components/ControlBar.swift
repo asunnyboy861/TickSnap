@@ -8,14 +8,15 @@ struct ControlBar: View {
     let onReset: () -> Void
     
     var body: some View {
-        HStack(spacing: 32) {
-            CircleButton(icon: "arrow.counterclockwise", color: .orange) {
+        HStack(spacing: 40) {
+            CircleButton(icon: "arrow.counterclockwise", color: .secondary) {
                 onReset()
             }
             
             CircleButton(
                 icon: isRunning ? "pause.fill" : "play.fill",
-                color: isRunning ? .orange : .green
+                color: .orange,
+                isPrimary: true
             ) {
                 if isRunning {
                     onPause()
@@ -24,10 +25,10 @@ struct ControlBar: View {
                 }
             }
             
-            CircleButton(icon: "stop.fill", color: .red.opacity(0.7)) {
+            CircleButton(icon: "stop.fill", color: .secondary) {
                 onReset()
             }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 12)
     }
 }

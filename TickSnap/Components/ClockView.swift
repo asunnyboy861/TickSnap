@@ -7,7 +7,7 @@ struct ClockView: View {
     
     var body: some View {
         Text(timeString)
-            .font(.system(size: 64, weight: .bold, design: .rounded))
+            .font(.system(size: 56, weight: .semibold, design: .rounded))
             .monospacedDigit()
             .foregroundStyle(isRunning ? .primary : .secondary)
             .contentTransition(.numericText())
