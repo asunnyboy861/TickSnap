@@ -15,9 +15,9 @@
 
 | Page | URL | Status |
 |------|-----|--------|
-| Landing Page | https://asunnyboy861.github.io/TickSnap/ | ⏳ Pending |
-| Support | https://asunnyboy861.github.io/TickSnap/support.html | ⏳ Pending |
-| Privacy Policy | https://asunnyboy861.github.io/TickSnap/privacy.html | ⏳ Pending |
+| Landing Page | https://asunnyboy861.github.io/TickSnap/ | ✅ Active |
+| Support | https://asunnyboy861.github.io/TickSnap/support.html | ✅ Active |
+| Privacy Policy | https://asunnyboy861.github.io/TickSnap/privacy.html | ✅ Active |
 
 **Note**: Terms of Use not required for free apps.
 
